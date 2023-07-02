@@ -40,6 +40,7 @@ vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 200
 vim.opt.wildmode = "longest:full,full"
+vim.opt.clipboard = "unnamedplus"
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
