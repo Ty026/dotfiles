@@ -3,10 +3,13 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim", opts = {
-        library = { plugins = { "neotest", "nvim-dap-ui" }, types = true },
-      } },
+      { "folke/neoconf.nvim",      cmd = "Neoconf", config = true },
+      {
+        "folke/neodev.nvim",
+        opts = {
+          library = { plugins = { "neotest", "nvim-dap-ui" }, types = true },
+        }
+      },
       { "smjonas/inc-rename.nvim", config = true },
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -37,8 +40,10 @@ return {
           lsp_utils.on_attach(function(client, buffer)
             -- stylua: ignore
             if client.name == "lua_ls" then
-              vim.keymap.set("n", "<leader>dX", function() require("osv").run_this() end, { buffer = buffer, desc = "OSV Run" })
-              vim.keymap.set("n", "<leader>dL", function() require("osv").launch({port = 8086} ) end,{ buffer = buffer, desc = "OSV Launch" })
+              vim.keymap.set("n", "<leader>dX", function() require("osv").run_this() end,
+                { buffer = buffer, desc = "OSV Run" })
+              vim.keymap.set("n", "<leader>dL", function() require("osv").launch({ port = 8086 }) end,
+                { buffer = buffer, desc = "OSV Launch" })
             end
           end)
         end,
@@ -76,10 +81,12 @@ return {
     dependencies = { "mason.nvim" },
     config = function()
       local nls = require "null-ls"
+      print("null-ls")
       nls.setup {
         sources = {
           nls.builtins.formatting.stylua,
           nls.builtins.diagnostics.ruff.with { extra_args = { "--max-line-length=180" } },
+          nls.builtins.formatting.prettierd
         },
       }
     end,
@@ -99,7 +106,7 @@ return {
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
     keys = {
-      { "<leader>cd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics" },
+      { "<leader>cd", "<cmd>TroubleToggle document_diagnostics<cr>",  desc = "Document Diagnostics" },
       { "<leader>cD", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
     },
   },

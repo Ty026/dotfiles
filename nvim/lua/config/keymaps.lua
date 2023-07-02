@@ -7,8 +7,8 @@ keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
 keymap("n", "x", '"_x')
 keymap("n", "dw", 'vb"_d')
 keymap("n", "<C-a>", "gg<S-v>G")
-keymap("n", "vs", ":split<CR><C-w>w", { silent = true })
-keymap("n", "hs", ":vsplit<CR><C-w>w", { silent = true })
+keymap("n", "vv", ":split<CR><C-w>w", { silent = true })
+keymap("n", "vs", ":vsplit<CR><C-w>w", { silent = true })
 
 -- move window
 keymap("n", "<C-l>", "<C-w>l")
