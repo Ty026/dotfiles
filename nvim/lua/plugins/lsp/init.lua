@@ -81,7 +81,6 @@ return {
 		dependencies = { "mason.nvim" },
 		config = function()
 			local nls = require("null-ls")
-			print("null-ls")
 			nls.setup({
 				sources = {
 					nls.builtins.formatting.stylua,
