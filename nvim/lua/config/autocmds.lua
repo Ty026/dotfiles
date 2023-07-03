@@ -1,7 +1,7 @@
-vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = "*",
+--[[ vim.api.nvim_create_autocmd("TermOpen", {
+	pattern = "",
 	command = "startinsert",
-})
+}) ]]
 
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
