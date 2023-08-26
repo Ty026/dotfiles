@@ -18,6 +18,7 @@ return {
 		},
 		opts = {
 			servers = {
+				-- glslls = {},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -47,6 +48,7 @@ return {
             end
 					end)
 				end,
+				glslls = function(_, _) end,
 			},
 		},
 		config = function(plugin, opts)

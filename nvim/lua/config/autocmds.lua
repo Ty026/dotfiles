@@ -78,7 +78,7 @@ vim.api.nvim_create_user_command("CMakeBuild", function()
 		end
 		return false
 	end
-	vim.bo.makeprg = "cmake -Bbuild && cmake --build build"
+	vim.bo.makeprg = "cmake -Bbuild -GNinja && cmake --build build"
 	vim.opt.cmdheight = 0
 	vim.cmd("make")
 	if check_compile_errors() == false then

@@ -45,3 +45,10 @@ vim.opt.clipboard = "unnamedplus"
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+vim.filetype.add({
+	extension = {
+		vs = "glsl",
+		fs = "glsl",
+	},
+})

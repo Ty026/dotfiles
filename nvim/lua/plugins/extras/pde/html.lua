@@ -20,12 +20,12 @@ return {
 				html = {
 					filetypes = {
 						"html",
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
+						-- "javascript",
+						-- "javascriptreact",
+						-- "javascript.jsx",
+						-- "typescript",
+						-- "typescriptreact",
+						-- "typescript.tsx",
 					},
 				},
 				-- Emmet

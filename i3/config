@@ -443,6 +443,7 @@ for_window [class="^.*"] border pixel 1
 #for_window [class="Game"] floating enable move position center
 for_window [class="Game"]  floating enable move position center  border normal
 for_window [class="VOLE"]  floating enable move position center  border normal
+for_window [class="^App$"]  floating enable move position center  border normal
 gaps inner 2
 gaps outer 2
 # smart_gaps on
