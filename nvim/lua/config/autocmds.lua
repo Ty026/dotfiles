@@ -1,10 +1,8 @@
---[[ vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = "",
-	command = "startinsert",
-}) ]]
-
--- See `:help vim.highlight.on_yank()`
+local function augroup(name)
+	return vim.api.nvim_create_augroup("mnv_" .. name, { clear = true })
+end
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank()
@@ -41,19 +39,18 @@ local function toggle_hlsearch(char)
 end
 vim.on_key(toggle_hlsearch, ns)
 
--- windows to close
 vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("close_with_q"),
 	pattern = {
 		"OverseerForm",
 		"OverseerList",
+		"checkhealth",
 		"floggraph",
 		"fugitive",
 		"git",
 		"help",
 		"lspinfo",
 		"man",
-		"neotest-output",
-		"neotest-summary",
 		"qf",
 		"query",
 		"spectre_panel",
@@ -61,6 +58,9 @@ vim.api.nvim_create_autocmd("FileType", {
 		"toggleterm",
 		"tsplayground",
 		"vim",
+		"neoai-input",
+		"neoai-output",
+		"notify",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
@@ -68,20 +68,17 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_user_command("CMakeBuild", function()
-	local function check_compile_errors()
-		local qf_list = vim.fn.getqflist()
-		for _, error_item in ipairs(qf_list) do
-			if error_item.valid == 1 then
-				return true
-			end
+vim.api.nvim_set_hl(0, "TerminalCursorShape", { underline = true })
+vim.api.nvim_create_autocmd("TermEnter", {
+	callback = function()
+		vim.cmd([[setlocal winhighlight=TermCursor:TerminalCursorShape]])
+	end,
+})
+
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		if require("plugin.lsp.utils").show_diagnostics() then
+			vim.schedule(vim.diagnostic.open_float)
 		end
-		return false
-	end
-	vim.bo.makeprg = "cmake -Bbuild -GNinja && cmake --build build"
-	vim.opt.cmdheight = 0
-	vim.cmd("make")
-	if check_compile_errors() == false then
-		vim.cmd("!./bin/game")
-	end
-end, {})
+	end,
+})

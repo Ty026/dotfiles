@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -9,19 +10,16 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
-
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
-		{ import = "plugins" },
-		{ import = "plugins.extras.lang" },
-		{ import = "plugins.extras.ui" },
-		{ import = "plugins.extras.pde" },
+		{ import = "plugin" },
+		{ import = "lang" },
 	},
 	defaults = { lazy = true, version = nil },
 	install = { missing = true, colorscheme = { "gruvbox" } },
-	checker = { enabled = true },
+	checker = { enabled = false },
 	performance = {
 		cache = {
 			enabled = true,
@@ -40,4 +38,3 @@ require("lazy").setup({
 		},
 	},
 })
--- vim.keymap.set("n", "<leader>z", "<cmd>:Lazy<cr>", { desc = "Plugin Manager" })
