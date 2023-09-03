@@ -82,3 +82,21 @@ vim.api.nvim_create_autocmd("CursorHold", {
 		end
 	end,
 })
+
+vim.api.nvim_create_user_command("BuildCppAndRun", function()
+	local function check_compile_errors()
+		local qf_list = vim.fn.getqflist()
+		for _, error_item in ipairs(qf_list) do
+			if error_item.valid == 1 then
+				return true
+			end
+		end
+		return false
+	end
+	vim.bo.makeprg = "cmake -Bbuild -GNinja && cmake --build build"
+	vim.opt.cmdheight = 0
+	vim.cmd("make")
+	if check_compile_errors() == false then
+		vim.cmd("!./bin/game")
+	end
+end, {})

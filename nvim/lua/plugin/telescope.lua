@@ -21,7 +21,8 @@ return {
 				'<cmd>lua require("telescope").extensions.file_browser.file_browser({ path="%:p:h", cwd =telescope_buffer_dir(), respect_git_ignore = false, hidden = true, grouped = true, previewer = false, initial_mode = "normal", layout_config = { height=40 } })<CR>',
 			},
 			{ "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
-			{ "<leader>l", "<cmd>Telescope live_grep<cr>", desc = "Workspace" },
+			{ "<leader>l", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+			{ "<leader>b", "<cmd>Telescope buffers<cr>", desc = "" },
 			-- { "<leader>gc", "<cmd>Telescope conventional_commits<cr>", desc = "Conventional Commits" },
 		},
 

@@ -10,6 +10,8 @@ keymap("t", "<C-h>", "<C-\\><C-n><C-w>h")
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j")
 keymap("t", "<C-k>", "<C-\\><C-n><C-w>k")
 keymap("t", "<C-l>", "<C-\\><C-n><C-w>l")
+keymap("n", "[e", "<cmd>cprevious<CR>")
+keymap("n", "]e", "<cmd>cnext<CR>")
 
 keymap("n", "<S-Up>", "<cmd>resize +2<CR>")
 keymap("n", "<S-Down>", "<cmd>resize -2<CR>")
@@ -28,3 +30,5 @@ keymap("i", ";", ";<c-g>u")
 
 keymap("n", "x", '"_x')
 keymap("n", "dw", 'vb"_d')
+
+keymap("n", "<leader>q", ":cclose<CR>")

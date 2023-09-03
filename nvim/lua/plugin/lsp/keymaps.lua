@@ -2,7 +2,6 @@ local M = {}
 
 function M.on_attach(client, buffer)
 	local self = M.new(client, buffer)
-
   -- stylua: ignore
   self:map("gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end,
     { desc = "Goto Definition" })
