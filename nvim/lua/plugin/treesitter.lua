@@ -15,11 +15,11 @@ end)()
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		-- commit = "f2778bd1a28b74adf5b1aa51aa57da85adfa3d16",
+		commit = "f2778bd1a28b74adf5b1aa51aa57da85adfa3d16",
 		dependencies = {
 			{
 				"nvim-treesitter/nvim-treesitter-textobjects",
-				-- commit = "35a60f093fa15a303874975f963428a5cd24e4a0",
+				commit = "35a60f093fa15a303874975f963428a5cd24e4a0",
 			},
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			"RRethy/nvim-treesitter-endwise",

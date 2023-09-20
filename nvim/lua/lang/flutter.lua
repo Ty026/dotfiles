@@ -5,18 +5,17 @@ return {
 			vim.list_extend(opts.ensure_installed, { "dart" })
 		end,
 	},
+
 	{
 		"akinsho/flutter-tools.nvim",
-		dependencies = {
-			{ "RobertBrunhage/flutter-riverpod-snippets" },
-		},
 		event = "VeryLazy",
 		opts = function()
+			local line = { "🭽", "▔", "🭾", "▕", "🭿", "▁", "🭼", "▏" }
 			return {
-				-- ui = { border = as.ui.current.border },
+				ui = { border = line },
 				debugger = {
-					-- enabled = is_nightly,
-					-- run_via_dap = is_nightly,
+					enabled = false,
+					run_via_dap = false,
 					exception_breakpoints = {},
 				},
 				outline = { auto_open = false },
@@ -24,7 +23,11 @@ return {
 					statusline = { device = true, app_version = true },
 				},
 				widget_guides = { enabled = true, debug = false },
-				-- dev_log = { enabled = not is_nightly, open_cmd = 'tabedit' },
+				dev_log = {
+					enabled = true,
+					-- open_cmd = "tabedit",
+					open_cmd = "15new",
+				},
 				lsp = {
 					color = {
 						enabled = true,
@@ -41,12 +44,16 @@ return {
 				},
 			}
 		end,
+		dependencies = {
+			{ "RobertBrunhage/flutter-riverpod-snippets" },
+		},
+
 		config = function(_, opts)
 			require("plugin.lsp.utils").on_attach(function(client, bufnr)
 				if client.name == "dartls" then
 					vim.keymap.set(
 						"n",
-						"<C-b>",
+						"<S-b>",
 						"<cmd>Telescope flutter commands<cr>",
 						{ buffer = bufnr, desc = "Flutter" }
 					)
@@ -58,7 +65,7 @@ return {
 					)
 				end
 			end)
-			require("flutter-tools").setup({})
+			require("flutter-tools").setup(opts)
 		end,
 	},
 }

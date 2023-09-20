@@ -98,7 +98,9 @@ return {
 							})
 							task:add_component({
 								"run_after",
-								task_names = { { "shell", cmd = "./bin/game" } },
+								-- On my dual GPU laptop,
+								-- use prime-run to launch programs with RTX gpu
+								task_names = { { "shell", cmd = "prime-run ./bin/game" } },
 								detach = true,
 							})
 							task:start()

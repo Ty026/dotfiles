@@ -130,4 +130,35 @@ return {
       { "<leader>vO", function() require("nvim-navbuddy").open() end, desc = "Code Outline (navbuddy)", },
     },
 	},
+	{
+		"monaqa/dial.nvim",
+		keys = {
+			{ "<C-a>", mode = { "n", "v" } },
+			{ "<C-x>", mode = { "n", "v" } },
+			{ "g<C-a>", mode = { "v" } },
+			{ "g<C-x>", mode = { "v" } },
+		},
+    -- stylua: ignore
+    init = function()
+      vim.api.nvim_set_keymap("n", "<C-a>", require("dial.map").inc_normal(), { desc = "Increment", noremap = true })
+      vim.api.nvim_set_keymap("n", "<C-x>", require("dial.map").dec_normal(), { desc = "Decrement", noremap = true })
+      vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_visual(), { desc = "Increment", noremap = true })
+      vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_visual(), { desc = "Decrement", noremap = true })
+      vim.api.nvim_set_keymap("v", "g<C-a>", require("dial.map").inc_gvisual(), { desc = "Increment", noremap = true })
+      vim.api.nvim_set_keymap("v", "g<C-x>", require("dial.map").dec_gvisual(), { desc = "Decrement", noremap = true })
+    end,
+		config = function(_, opts)
+			local augend = require("dial.augend")
+			require("dial.config").augends:register_group({
+				default = {
+          -- stylua: ignore
+					augend.constant.new({ elements = { "and", "or" }, word = true, cyclic = true }),
+          -- stylua: ignore
+					augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
+          -- stylua: ignore
+					augend.constant.new({ elements = { "true", "false" }, word = false, cyclic = true }),
+				},
+			})
+		end,
+	},
 }

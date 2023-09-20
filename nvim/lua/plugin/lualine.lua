@@ -115,7 +115,12 @@ local M = {
 				sections = {
 					lualine_a = { "mode" },
 					lualine_b = { components.git_repo, "branch" },
-					lualine_c = { components.diff, components.diagnostics, components.separator, components.lsp_client },
+					lualine_c = {
+						components.diff,
+						components.diagnostics,
+						components.separator,
+						-- components.lsp_client,
+					},
 					lualine_x = { "filename", "encoding", "filetype", "progress" },
 					lualine_y = {},
 					lualine_z = { "location" },
