@@ -114,7 +114,7 @@ return {
 							end, {})
 
 							-- For small projects, I prefer using the built-in make,
-							vim.keymap.set("n", "<C-b>", "<cmd>BuildCppAndRun<cr>", { buffer = bufnr }) -- see config/autocmds.lua
+							vim.keymap.set("n", "<S-b>", "<cmd>BuildCppAndRun<cr>", { buffer = bufnr }) -- see config/autocmds.lua
 						end
 					end)
 				end,

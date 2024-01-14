@@ -151,11 +151,11 @@ return {
 			local augend = require("dial.augend")
 			require("dial.config").augends:register_group({
 				default = {
-          -- stylua: ignore
+					augend.integer.alias.decimal, -- nonnegative decimal number (0, 1, 2, 3, ...)
+					augend.integer.alias.hex, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
+					augend.date.alias["%Y/%m/%d"], -- date (2022/02/19, etc.)
 					augend.constant.new({ elements = { "and", "or" }, word = true, cyclic = true }),
-          -- stylua: ignore
 					augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
-          -- stylua: ignore
 					augend.constant.new({ elements = { "true", "false" }, word = false, cyclic = true }),
 				},
 			})
