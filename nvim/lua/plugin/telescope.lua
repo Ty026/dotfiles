@@ -121,7 +121,7 @@ return {
 		config = function()
 			require("project_nvim").setup({
 				detection_methods = { "pattern", "lsp" },
-				patterns = { ".git" },
+				patterns = { ".git", "package.json", "go.mod", "requirements.txt" },
 				ignore_lsp = { "null-ls" },
 			})
 		end,

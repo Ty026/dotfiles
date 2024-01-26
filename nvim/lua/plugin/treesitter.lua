@@ -12,6 +12,8 @@ local swap_next, swap_prev = (function()
 	return n, p
 end)()
 
+vim.g.skip_ts_context_commentstring_module = true
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -21,7 +23,7 @@ return {
 				"nvim-treesitter/nvim-treesitter-textobjects",
 				-- commit = "35a60f093fa15a303874975f963428a5cd24e4a0",
 			},
-			"JoosepAlviste/nvim-ts-context-commentstring",
+			-- "JoosepAlviste/nvim-ts-context-commentstring",
 			"RRethy/nvim-treesitter-endwise",
 			"windwp/nvim-ts-autotag",
 			"nvim-treesitter/playground",
@@ -44,10 +46,11 @@ return {
 				"vim",
 				"vimdoc",
 				"yaml",
+				"dap_repl",
 			},
 			highlight = { enable = true, additional_vim_regex_highlighting = { "org", "markdown" } },
 			indent = { enable = true },
-			context_commentstring = { enable = true, enable_autocmd = false },
+			-- context_commentstring = { enable = true, enable_autocmd = false },
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -117,6 +120,7 @@ return {
 					return true
 				end, opts.ensure_installed)
 			end
+			require("ts_context_commentstring").setup({})
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},

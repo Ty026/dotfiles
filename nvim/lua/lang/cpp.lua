@@ -20,40 +20,39 @@ return {
 			vim.list_extend(opts.ensure_installed, { "codelldb" })
 		end,
 	},
+
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "p00f/clangd_extensions.nvim" },
 		opts = {
 			servers = {
 				clangd = {
-					server = {
-						root_dir = function(...)
-							-- using a root .clang-format or .clang-tidy file messes up projects, so remove them
-							return require("lspconfig.util").root_pattern(
-								"compile_commands.json",
-								"compile_flags.txt",
-								"configure.ac",
-								".git"
-							)(...)
-						end,
-						capabilities = {
-							offsetEncoding = { "utf-16" },
-						},
-						cmd = {
-							"clangd",
-							"--background-index",
-							"--clang-tidy",
-							"--header-insertion=iwyu",
-							"--completion-style=detailed",
-							"--function-arg-placeholders",
-							"--fallback-style=llvm",
-						},
-						init_options = {
-							usePlaceholders = true,
-							completeUnimported = true,
-							clangdFileStatus = true,
-						},
+					root_dir = function(...)
+						return require("lspconfig.util").root_pattern(
+							"compile_commands.json",
+							"compile_flags.txt",
+							"configure.ac",
+							".git"
+						)(...)
+					end,
+					capabilities = {
+						offsetEncoding = { "utf-16" },
 					},
+					cmd = {
+						"clangd",
+						-- "--background-index",
+						-- "--clang-tidy",
+						-- "--header-insertion=iwyu",
+						-- "--completion-style=detailed",
+						-- "--function-arg-placeholders",
+						-- "--fallback-style=llvm",
+					},
+					init_options = {
+						usePlaceholders = true,
+						completeUnimported = true,
+						clangdFileStatus = true,
+					},
+
 					extensions = {
 						inlay_hints = {
 							inline = false,
@@ -84,7 +83,33 @@ return {
 			setup = {
 				clangd = function(_, opts)
 					require("clangd_extensions").setup({
-						server = opts.server,
+						server = {
+							root_dir = function(...)
+								return require("lspconfig.util").root_pattern(
+									"compile_commands.json",
+									"compile_flags.txt",
+									"configure.ac",
+									".git"
+								)(...)
+							end,
+							capabilities = {
+								offsetEncoding = { "utf-16" },
+							},
+							cmd = {
+								"clangd",
+								"--background-index",
+								"--clang-tidy",
+								"--header-insertion=iwyu",
+								"--completion-style=detailed",
+								"--function-arg-placeholders",
+								"--fallback-style=llvm",
+							},
+							init_options = {
+								usePlaceholders = true,
+								completeUnimported = true,
+								clangdFileStatus = true,
+							},
+						},
 						extensions = opts.extensions,
 					})
 
@@ -117,6 +142,41 @@ return {
 							vim.keymap.set("n", "<S-b>", "<cmd>BuildCppAndRun<cr>", { buffer = bufnr }) -- see config/autocmds.lua
 						end
 					end)
+				end,
+			},
+		},
+	},
+
+	{
+		"mfussenegger/nvim-dap",
+		opts = {
+			setup = {
+				codelldb = function()
+					local codelldb_path, _ = get_codelldb()
+					local dap = require("dap")
+					dap.adapters.codelldb = {
+						type = "server",
+						port = "${port}",
+						executable = {
+							command = codelldb_path,
+							args = { "--port", "${port}" },
+						},
+					}
+					dap.configurations.cpp = {
+						{
+							name = "Launch file",
+							type = "codelldb",
+							request = "launch",
+							program = function()
+								return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/bin/", "file")
+							end,
+							cwd = "${workspaceFolder}",
+							stopOnEntry = false,
+						},
+					}
+
+					dap.configurations.c = dap.configurations.cpp
+					dap.configurations.rust = dap.configurations.cpp
 				end,
 			},
 		},

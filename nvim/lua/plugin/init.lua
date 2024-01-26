@@ -5,13 +5,24 @@ return {
 		"lukas-reineke/indent-blankline.nvim",
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {
-			char = "▏",
-			-- char = "| ",
 			filetype_exclude = { "help", "alpha", "dashboard", "NvimTree", "Trouble", "lazy", "mason" },
 			show_trailing_blankline_indent = false,
 			show_current_context = true,
 			show_end_of_line = true,
 		},
+		config = function()
+			require("ibl").setup({
+
+				indent = {
+					char = "▏",
+					-- highlight = { "Function" },
+					repeat_linebreak = false,
+				},
+				scope = {
+					show_start = false,
+				},
+			})
+		end,
 	},
 	{
 		"abecodes/tabout.nvim",
@@ -70,17 +81,23 @@ return {
 		config = function(_, _)
 			local opts = {
 				ignore = "^$",
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+				-- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 			}
 			require("Comment").setup(opts)
 		end,
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
-		dependencies = { "DaikyXendo/nvim-material-icon" },
 		config = function()
 			require("nvim-web-devicons").setup({
-				override = require("nvim-material-icon").get_icons(),
+				override = require("config/material_icons"),
+				override_by_extension = {
+					["json"] = {
+						icon = "",
+						color = "#81e043",
+						name = "JSON",
+					},
+				},
 			})
 		end,
 	},
@@ -160,5 +177,88 @@ return {
 				},
 			})
 		end,
+	},
+
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPre",
+		opts = {
+			signs = {
+				add = { hl = "GitSignsAdd", text = "▍", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+				change = {
+					hl = "GitSignsChange",
+					text = "▍",
+					numhl = "GitSignsChangeNr",
+					linehl = "GitSignsChangeLn",
+				},
+				delete = {
+					hl = "GitSignsDelete",
+					text = "▸",
+					numhl = "GitSignsDeleteNr",
+					linehl = "GitSignsDeleteLn",
+				},
+				topdelete = {
+					hl = "GitSignsDelete",
+					text = "▾",
+					numhl = "GitSignsDeleteNr",
+					linehl = "GitSignsDeleteLn",
+				},
+				changedelete = {
+					hl = "GitSignsChange",
+					text = "▍",
+					numhl = "GitSignsChangeNr",
+					linehl = "GitSignsChangeLn",
+				},
+			},
+			-- update_debounce = 100,
+			on_attach = function(bufnr)
+				local gs = package.loaded.gitsigns
+				local function map(mode, l, r, opts)
+					opts = opts or {}
+					opts.buffer = bufnr
+					vim.keymap.set(mode, l, r, opts)
+				end
+
+				map("n", "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
+				map("n", "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
+				-- Actions
+				map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
+				map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
+				map("n", "<leader>ghS", gs.stage_buffer, { desc = "Stage Buffer" })
+				map("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "Undo Stage Hunk" })
+				map("n", "<leader>ghR", gs.reset_buffer, { desc = "Reset Buffer" })
+				map("n", "<leader>ghp", gs.preview_hunk, { desc = "Preview Hunk" })
+				map("n", "<leader>ghb", function()
+					gs.blame_line({ full = true })
+				end, { desc = "Blame Line" })
+				map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "Toggle Line Blame" })
+				map("n", "<leader>ghd", gs.diffthis, { desc = "Diff This" })
+				map("n", "<leader>ghD", function()
+					gs.diffthis("~")
+				end, { desc = "Diff This ~" })
+				map("n", "<leader>gtd", gs.toggle_deleted, { desc = "Toggle Delete" })
+
+				-- Text object
+				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select Hunk" })
+			end,
+		},
 	},
 }
