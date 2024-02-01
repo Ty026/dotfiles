@@ -48,7 +48,7 @@ return {
 			local file_ignore_patterns = {
 				".git/",
 				"3rdparty/",
-				"__pycache__",
+				"__pycache__/",
 			}
 			telescope.setup({
 				defaults = {
