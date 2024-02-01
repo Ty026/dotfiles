@@ -61,6 +61,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		"neoai-input",
 		"neoai-output",
 		"notify",
+		"chatgpt-input",
+		"markdown",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
@@ -99,6 +101,9 @@ vim.api.nvim_create_user_command("BuildCppAndRun", function()
 	if check_compile_errors() == false then
 		local cmd = "ls -lt bin"
 		local handle = io.popen(cmd)
+		if handle == nil then
+			return
+		end
 		local result = handle:read("*a")
 		handle:close()
 		local files = {}

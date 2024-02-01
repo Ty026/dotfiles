@@ -120,7 +120,7 @@ return {
 					return true
 				end, opts.ensure_installed)
 			end
-			--require("ts_context_commentstring").setup({})
+			require("ts_context_commentstring").setup({})
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},

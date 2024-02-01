@@ -4,12 +4,11 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-			--{ "j-hui/fidget.nvim", config = true, tag = "legacy" },
-			{ "smjonas/inc-rename.nvim", config = true },
+			"smjonas/inc-rename.nvim",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"jay-babu/mason-null-ls.nvim",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
+			--"jay-babu/mason-null-ls.nvim",
+			--"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		opts = {
 			servers = {},
@@ -23,9 +22,28 @@ return {
 		end,
 	},
 	{
-		"smjonas/inc-rename.nvim",
+		"nvimtools/none-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = { "mason.nvim" },
+		opts = function()
+			local nls = require("null-ls")
+			return {
+				root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+				sources = {
+					nls.builtins.formatting.shfmt,
+				},
+			}
+		end,
+	},
+	{
+		"nvimdev/lspsaga.nvim",
+		event = "VeryLazy",
 		opts = {
-			input_buffer_type = "dressing",
+			symbol_in_winbar = { enable = false },
+			lightbulb = { enable = false },
+		},
+		keys = {
+			{ "<C-y>", "<cmd>Lspsaga diagnostic_jump_next<cr>" },
 		},
 	},
 	{
@@ -52,43 +70,5 @@ return {
 				ensure_installed()
 			end
 		end,
-	},
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		event = "BufReadPre",
-		dependencies = { "mason.nvim" },
-		opts = function()
-			local nls = require("null-ls")
-			return {
-				root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-				sources = {
-					nls.builtins.formatting.shfmt,
-				},
-			}
-		end,
-	},
-	{
-		"jay-babu/mason-null-ls.nvim",
-		opts = { ensure_installed = nil, automatic_installation = true, automatic_setup = false },
-	},
-	{
-		"nvimdev/lspsaga.nvim",
-		event = "VeryLazy",
-		opts = {
-			symbol_in_winbar = { enable = false },
-			lightbulb = { enable = false },
-		},
-		keys = {
-			{ "<C-y>", "<cmd>Lspsaga diagnostic_jump_next<cr>" },
-		},
-	},
-	{
-		"folke/trouble.nvim",
-		cmd = { "TroubleToggle", "Trouble" },
-		opts = { use_diagnostic_signs = true },
-		keys = {
-			{ "<leader>cd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics" },
-			{ "<leader>cD", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
-		},
 	},
 }

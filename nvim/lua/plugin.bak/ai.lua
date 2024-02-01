@@ -2,24 +2,15 @@ return {
 	{
 		"Exafunction/codeium.vim",
 		event = "InsertEnter",
-		config = function()
-			vim.g.codeium_disable_bindings = 1
-			vim.keymap.set("i", "<A-m>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true })
-			vim.keymap.set("i", "<A-f>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true })
-			vim.keymap.set("i", "<A-b>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true })
-			vim.keymap.set("i", "<A-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true })
-			vim.keymap.set("i", "<A-s>", function()
-				return vim.fn["codeium#Complete"]()
-			end, { expr = true })
-		end,
+      -- stylua: ignore
+      config = function ()
+        vim.g.codeium_disable_bindings = 1
+        vim.keymap.set("i", "<A-m>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
+        vim.keymap.set("i", "<A-f>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
+        vim.keymap.set("i", "<A-b>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
+        vim.keymap.set("i", "<A-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
+        vim.keymap.set("i", "<A-s>", function() return vim.fn["codeium#Complete"]() end, { expr = true })
+      end,
 	},
 	{
 		"jackMort/ChatGPT.nvim",
@@ -32,15 +23,6 @@ return {
 				"<cmd>ChatGPTEditWithInstructions<cr>",
 				mode = { "n", "v" },
 				desc = "Edit with Instructions",
-			},
-			{ "<leader>cd", "<cmd>ChatGPTRun docstring<cr>", desc = "Chat", mode = { "n", "v" } },
-			{ "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", "Explain Code", mode = { "n", "v" } },
-			{ "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", "Summarize", mode = { "n", "v" } },
-			{
-				"<leader>cl",
-				"<cmd>ChatGPTRun code_readability_analysis<CR>",
-				"Code Readability Analysis",
-				mode = { "n", "v" },
 			},
 		},
 		opts = {},
