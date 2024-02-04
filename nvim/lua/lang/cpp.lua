@@ -24,7 +24,9 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = { "p00f/clangd_extensions.nvim" },
 		opts = {
-			servers = {},
+			servers = {
+				clangd = {},
+			},
 			setup = {
 				clangd = function(_, opts)
 					require("clangd_extensions").setup({
