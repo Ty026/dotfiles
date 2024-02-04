@@ -55,8 +55,18 @@ return {
 				mode = { "n", "v" },
 				desc = "Complete Code",
 			},
+			{
+				"<leader>cr",
+				"<cmd>ChatGPTRun translate<cr>",
+				mode = { "n", "v" },
+				desc = "Translate",
+			},
 		},
-		opts = {},
+		opts = {
+			openai_params = {
+				model = "gpt-3.5-turbo-0125",
+			},
+		},
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 			"nvim-lua/plenary.nvim",
