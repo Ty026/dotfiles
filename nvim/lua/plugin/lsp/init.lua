@@ -7,8 +7,8 @@ return {
 			"smjonas/inc-rename.nvim",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			--"jay-babu/mason-null-ls.nvim",
-			--"hrsh7th/cmp-nvim-lsp-signature-help",
+			"nvimtools/none-ls.nvim",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		opts = {
 			servers = {},

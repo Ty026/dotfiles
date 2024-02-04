@@ -6,7 +6,7 @@ return {
 		end,
 	},
 	{
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 		opts = function(_, opts)
 			if type(opts.sources) == "table" then
 				local nls = require("null-ls")
@@ -49,34 +49,12 @@ return {
 		end,
 		event = { "CmdlineEnter" },
 		ft = { "go", "gomod" },
-		build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+		build = ':lua require("go.install").update_all_sync()',
 	},
+
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
-			servers = {
-				gopls = {
-					settings = {
-						gopls = {
-							analyses = {
-								unusedparams = true,
-							},
-							hints = {
-								assignVariableTypes = true,
-								compositeLiteralFields = true,
-								compositeLiteralTypes = true,
-								constantValues = true,
-								functionTypeParameters = true,
-								parameterNames = true,
-								rangeVariableTypes = true,
-							},
-							staticcheck = true,
-							semanticTokens = true,
-						},
-					},
-				},
-				golangci_lint_ls = {},
-			},
 			setup = {
 				gopls = function(_, _)
 					local lsp_utils = require("plugin.lsp.utils")
@@ -97,7 +75,7 @@ return {
               map("n", "<leader>ly", "<cmd>GoModTidy<cr>", "Go Mod Tidy")
               map("n", "<leader>lc", "<cmd>GoCoverage<Cr>", "Go Test Coverage")
               map("n", "<leader>lt", "<cmd>GoTest<Cr>", "Go Test")
-              map("n", "<s-b>", "<cmd>GoRun<Cr>", "Go Run")
+              map("n", "<s-b>", "<cmd>RunGo<Cr>", "Go Run")
               map("n", "<leader>dT", "<cmd>lua require('dap-go').debug_test()<cr>", "Go Debug Test")
               
               if not client.server_capabilities.semanticTokensProvider then

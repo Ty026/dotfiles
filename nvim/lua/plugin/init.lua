@@ -196,6 +196,21 @@ return {
 		end,
 	},
 	{
+		"nvim-tree/nvim-web-devicons",
+		config = function()
+			require("nvim-web-devicons").setup({
+				override = require("config/material_icons"),
+				override_by_extension = {
+					["json"] = {
+						icon = "",
+						color = "#81e043",
+						name = "JSON",
+					},
+				},
+			})
+		end,
+	},
+	{
 		"folke/which-key.nvim",
 		cond = function()
 			return true

@@ -20,66 +20,11 @@ return {
 			vim.list_extend(opts.ensure_installed, { "codelldb" })
 		end,
 	},
-
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "p00f/clangd_extensions.nvim" },
 		opts = {
-			servers = {
-				clangd = {
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(
-							"compile_commands.json",
-							"compile_flags.txt",
-							"configure.ac",
-							".git"
-						)(...)
-					end,
-					capabilities = {
-						offsetEncoding = { "utf-16" },
-					},
-					cmd = {
-						"clangd",
-						-- "--background-index",
-						-- "--clang-tidy",
-						-- "--header-insertion=iwyu",
-						-- "--completion-style=detailed",
-						-- "--function-arg-placeholders",
-						-- "--fallback-style=llvm",
-					},
-					init_options = {
-						usePlaceholders = true,
-						completeUnimported = true,
-						clangdFileStatus = true,
-					},
-
-					extensions = {
-						inlay_hints = {
-							inline = false,
-						},
-						ast = {
-							--These require codicons (https://github.com/microsoft/vscode-codicons)
-							role_icons = {
-								type = "",
-								declaration = "",
-								expression = "",
-								specifier = "",
-								statement = "",
-								["template argument"] = "",
-							},
-							kind_icons = {
-								Compound = "",
-								Recovery = "",
-								TranslationUnit = "",
-								PackExpansion = "",
-								TemplateTypeParm = "",
-								TemplateTemplateParm = "",
-								TemplateParamObject = "",
-							},
-						},
-					},
-				},
-			},
+			servers = {},
 			setup = {
 				clangd = function(_, opts)
 					require("clangd_extensions").setup({
@@ -112,7 +57,6 @@ return {
 						},
 						extensions = opts.extensions,
 					})
-
 					local overseer = require("overseer")
 					local build_cpp = function(task)
 						if task then
@@ -137,7 +81,6 @@ return {
 							vim.keymap.set("n", "<leader>o", function()
 								overseer.run_template({ name = "cpp_build", autostart = false }, build_cpp)
 							end, {})
-
 							-- For small projects, I prefer using the built-in make,
 							vim.keymap.set("n", "<S-b>", "<cmd>BuildCppAndRun<cr>", { buffer = bufnr }) -- see config/autocmds.lua
 						end
@@ -146,7 +89,6 @@ return {
 			},
 		},
 	},
-
 	{
 		"mfussenegger/nvim-dap",
 		opts = {
@@ -162,19 +104,19 @@ return {
 							args = { "--port", "${port}" },
 						},
 					}
+
 					dap.configurations.cpp = {
 						{
 							name = "Launch file",
 							type = "codelldb",
 							request = "launch",
 							program = function()
-								return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/bin/", "file")
+								return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/bin/")
 							end,
 							cwd = "${workspaceFolder}",
 							stopOnEntry = false,
 						},
 					}
-
 					dap.configurations.c = dap.configurations.cpp
 					dap.configurations.rust = dap.configurations.cpp
 				end,

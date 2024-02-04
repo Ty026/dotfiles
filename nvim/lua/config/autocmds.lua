@@ -85,6 +85,13 @@ vim.api.nvim_create_autocmd("CursorHold", {
 	end,
 })
 
+vim.api.nvim_create_user_command("RunGo", function()
+	local old_makeprg = vim.bo.makeprg
+	vim.bo.makeprg = "go run ."
+	vim.cmd("make")
+	vim.bo.makeprg = old_makeprg
+end, {})
+
 vim.api.nvim_create_user_command("BuildCppAndRun", function()
 	local function check_compile_errors()
 		local qf_list = vim.fn.getqflist()

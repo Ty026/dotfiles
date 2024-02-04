@@ -1,5 +1,9 @@
 {
     "diagnostics.globals": [
-        "telescope_buffer_dir"
+        "telescope_buffer_dir",
+        "goto_definition"
+    ],
+    "diagnostics.disable": [
+        "redundant-parameter"
     ]
 }

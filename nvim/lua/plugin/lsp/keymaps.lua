@@ -9,7 +9,17 @@ local function rename()
 	end
 end
 
+function M.diagnostic_goto(next, severity)
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
+end
+
 function M.on_attach(client, buf)
+	local telescope = require("telescope.builtin")
+
 	local function has(capability)
 		return client.server_capabilities[capability .. "Provider"]
 	end
@@ -26,8 +36,30 @@ function M.on_attach(client, buf)
 			{ silent = true, buffer = buf, expr = opts.expr, desc = opts.desc }
 		)
 	end
+
+	local function goto_definition()
+		telescope.lsp_definitions({ reuse_win = true })
+	end
+
+	local function goto_implementation()
+		print(telescope.lsp_implementations)
+		telescope.lsp_implementations({ reuse_win = true })
+	end
+
 	map("K", "Lspsaga hover_doc", { desc = "Hover" })
+	map("gK", vim.lsp.buf.signature_help, { desc = "Signature Help", has = "signatureHelp" })
 	map("<leader>r", rename, { expr = true, desc = "Rename", has = "rename" })
+	map("gr", "Telescope lsp_references", { desc = "References" })
+	map("gd", goto_definition, { desc = "Goto Definition" })
+	map("gD", "Lspsaga peek_definition", { desc = "Peek Definition" })
+	map("gi", goto_implementation, { desc = "Goto Implementation" })
+	map("<leader>ca", "Lspsaga code_action", { desc = "Code Action", mode = { "n", "v" }, has = "codeAction" })
+	map("]d", M.diagnostic_goto(true), { desc = "Next Diagnostic" })
+	map("[d", M.diagnostic_goto(false), { desc = "Prev Diagnostic" })
+	map("]e", M.diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+	map("[e", M.diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+	map("]w", M.diagnostic_goto(true, "WARNING"), { desc = "Next Warning" })
+	map("[w", M.diagnostic_goto(false, "WARNING"), { desc = "Prev Warning" })
 end
 
 return M
