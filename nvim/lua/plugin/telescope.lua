@@ -100,9 +100,9 @@ return {
 			{ "<leader>0", "<Cmd>2ToggleTerm<Cr>", desc = "Terminal #2" },
 		},
 		opts = {
-			size = 15,
-			hide_numbers = true,
 			open_mapping = [[<C-\>]],
+			size = 20,
+			hide_numbers = true,
 			shade_filetypes = {},
 			shade_terminals = false,
 			shading_factor = 0.3,
@@ -116,6 +116,33 @@ return {
 				end,
 			},
 		},
+		config = function(_, opts)
+			require("toggleterm").setup(opts)
+			local Terminal = require("toggleterm.terminal").Terminal
+			local lazygit = Terminal:new({
+				cmd = "lazygit",
+				dir = "git_dir",
+				direction = "float",
+				on_open = function(term)
+					vim.cmd("startinsert!")
+					vim.api.nvim_buf_set_keymap(
+						term.bufnr,
+						"n",
+						"q",
+						"<cmd>close<CR>",
+						{ noremap = true, silent = true }
+					)
+				end,
+				on_close = function(_)
+					vim.cmd("startinsert!")
+				end,
+			})
+
+			function _LazygitToggle()
+				lazygit:toggle()
+			end
+			vim.keymap.set("n", "<leader>g", "<cmd>lua _LazygitToggle()<cr>")
+		end,
 	},
 	{
 		"ahmedkhalf/project.nvim",

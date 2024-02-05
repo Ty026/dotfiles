@@ -54,6 +54,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
+					{ name = "crates" },
 				}),
 				formatting = {
 					fields = { "kind", "abbr", "menu" },

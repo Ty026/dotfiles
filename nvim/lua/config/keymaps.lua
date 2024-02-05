@@ -5,7 +5,7 @@ keymap("n", "<C-h>", "<C-w>h")
 keymap("n", "<C-j>", "<C-w>j")
 keymap("n", "<C-k>", "<C-w>k")
 
-keymap("t", "jk", "<C-\\><C-n>")
+-- keymap("t", "jk", "<C-\\><C-n>")
 keymap("t", "<C-h>", "<C-\\><C-n><C-w>h")
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j")
 keymap("t", "<C-k>", "<C-\\><C-n><C-w>k")
