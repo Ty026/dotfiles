@@ -33,7 +33,7 @@ return {
 				mode = { "n", "v" },
 				desc = "Edit with Instructions",
 			},
-			{ "<leader>cd", "<cmd>ChatGPTRun docstring<cr>", desc = "Chat", mode = { "n", "v" } },
+			{ "<leader>cd", "<cmd>ChatGPTRun docstring<cr>", desc = "DocString", mode = { "n", "v" } },
 			{
 				"<leader>cx",
 				"<cmd>ChatGPTRun explain_code<CR>",

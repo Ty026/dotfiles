@@ -122,7 +122,7 @@ return {
 			local lazygit = Terminal:new({
 				cmd = "lazygit",
 				dir = "git_dir",
-				direction = "float",
+				direction = "tab",
 				on_open = function(term)
 					vim.cmd("startinsert!")
 					vim.api.nvim_buf_set_keymap(

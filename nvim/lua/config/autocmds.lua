@@ -130,7 +130,7 @@ vim.api.nvim_create_user_command("BuildCppAndRun", function()
 		if not has_extension and first_file ~= nil then
 			executable = "!./bin/" .. first_file
 		else
-			executable = "!./bin/game"
+			executable = "!./bin/app"
 		end
 		vim.cmd(executable)
 	end
