@@ -15,7 +15,7 @@ return {
 		},
 		keys = {
 			{
-				"<leader>vo",
+				"<leader>v",
 				function()
 					require("nvim-navbuddy").open()
 				end,
@@ -209,6 +209,36 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		enabled = true,
+		cmd = { "NvimTreeToggle" },
+		keys = {
+			{ "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
+		},
+		opts = {
+			disable_netrw = false,
+			hijack_netrw = true,
+			respect_buf_cwd = true,
+			view = {
+				number = true,
+				relativenumber = true,
+			},
+			filters = {
+				custom = { ".git" },
+			},
+			sync_root_with_cwd = true,
+			update_focused_file = {
+				enable = true,
+				update_root = true,
+			},
+			actions = {
+				open_file = {
+					quit_on_open = true,
+				},
+			},
+		},
 	},
 	{
 		"folke/which-key.nvim",

@@ -18,6 +18,7 @@ return {
 		config = function(_, opts)
 			require("plugin.lsp.utils").on_attach(function(client, bufnr)
 				if client.name == "tsserver" then
+					vim.keymap.set("n", "<leader>r", "<cmd>Lspsaga rename<cr>", { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set(
 						"n",
 						"<leader>co",

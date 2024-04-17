@@ -1,14 +1,5 @@
 local M = {}
 
-local function rename()
-	local ok = pcall(require, "inc_rename")
-	if ok then
-		return ":IncRename " .. vim.fn.expand("<cword>")
-	else
-		vim.lsp.buf.rename()
-	end
-end
-
 function M.diagnostic_goto(next, severity)
 	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
 	severity = severity and vim.diagnostic.severity[severity] or nil
@@ -46,9 +37,28 @@ function M.on_attach(client, buf)
 		telescope.lsp_implementations({ reuse_win = true })
 	end
 
+	local useIncRename = true
+	if client.name == "tsserver" then
+		useIncRename = false
+	end
+
+	local function rename()
+		local ok = pcall(require, "inc_rename")
+		if ok and useIncRename then
+			return ":IncRename " .. vim.fn.expand("<cword>")
+		else
+			vim.lsp.buf.rename()
+		end
+	end
+
+	if client.name == "typescript-tools" then
+		map("<leader>r", "Lspsaga rename", { desc = "Rename", has = "rename" })
+	else
+		map("<leader>r", rename, { expr = true, desc = "Rename", has = "rename" })
+	end
+
 	map("K", "Lspsaga hover_doc", { desc = "Hover" })
 	map("gK", vim.lsp.buf.signature_help, { desc = "Signature Help", has = "signatureHelp" })
-	map("<leader>r", rename, { expr = true, desc = "Rename", has = "rename" })
 	map("gr", "Telescope lsp_references", { desc = "References" })
 	map("gd", goto_definition, { desc = "Goto Definition" })
 	map("gD", "Lspsaga peek_definition", { desc = "Peek Definition" })

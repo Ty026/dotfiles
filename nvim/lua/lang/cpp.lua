@@ -71,7 +71,7 @@ return {
 								"run_after",
 								-- On my dual GPU laptop,
 								-- use prime-run to launch programs with RTX gpu
-								task_names = { { "shell", cmd = "prime-run ./bin/game" } },
+								task_names = { { "shell", cmd = "./bin/game" } },
 								detach = true,
 							})
 							task:start()

@@ -9,6 +9,11 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"nvimtools/none-ls.nvim",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"SmiteshP/nvim-navbuddy",
+			dependencies = {
+				"SmiteshP/nvim-navic",
+				"MunifTanjim/nui.nvim",
+			},
 		},
 		opts = {
 			servers = {},

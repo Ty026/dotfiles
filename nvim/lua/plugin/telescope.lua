@@ -20,9 +20,9 @@ return {
 				"<leader>e",
 				'<cmd>lua require("telescope").extensions.file_browser.file_browser({ path="%:p:h", cwd =telescope_buffer_dir(), respect_git_ignore = false, hidden = true, grouped = true, previewer = false, initial_mode = "normal", layout_config = { height=40 } })<CR>',
 			},
-			{ "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
+			-- { "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
 			{ "<leader>l", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-			{ "<leader>b", "<cmd>Telescope buffers<cr>", desc = "" },
+			-- { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "" },
 			-- { "<leader>gc", "<cmd>Telescope conventional_commits<cr>", desc = "Conventional Commits" },
 		},
 
@@ -48,6 +48,9 @@ return {
 			local file_ignore_patterns = {
 				".git/",
 				"3rdparty/",
+				"node_modules",
+				".cache",
+				"build",
 				"__pycache__/",
 			}
 			telescope.setup({
@@ -149,7 +152,7 @@ return {
 		config = function()
 			require("project_nvim").setup({
 				detection_methods = { "pattern", "lsp" },
-				patterns = { ".git", "package.json", "go.mod", "requirements.txt" },
+				patterns = { ".git", "package.json", "go.mod", "requirements.txt", ".clang-format" },
 				ignore_lsp = { "null-ls" },
 			})
 		end,
