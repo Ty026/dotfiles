@@ -23,4 +23,32 @@ return {
     dependencies = { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
     opts = {},
   },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        html = {
+          filetypes = {
+            "html",
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+          },
+        },
+        emmet_ls = {
+          init_options = {
+            html = {
+              options = { ["bem.enabled"] = true },
+            },
+          },
+        },
+        cssls = {},
+        tailwindcss = { filetypes_exclude = { "markdown" } },
+      },
+    },
+  },
 }

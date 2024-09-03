@@ -16,6 +16,7 @@ return {
         build = "cargo build --workspace --release",
         enabled = false,
       },
+      "roobert/tailwindcss-colorizer-cmp.nvim",
     },
     opts = function()
       local cmp = require("cmp")
@@ -130,7 +131,7 @@ return {
             item.menu = source_names[entry.source.name]
             item.dup = duplicates[entry.source.name] or duplicates_default
 
-            return item
+            return require("tailwindcss-colorizer-cmp").formatter(entry, item)
           end,
         },
         window = {
