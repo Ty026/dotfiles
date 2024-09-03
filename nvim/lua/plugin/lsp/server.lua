@@ -65,6 +65,16 @@ local function lsp_init()
   -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
 end
 
+M.on_attach = function(on_attach)
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local buffer = args.buf
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      on_attach(client, buffer)
+    end,
+  })
+end
+
 M.setup = function(_, opts)
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)

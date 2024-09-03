@@ -73,3 +73,61 @@ vim.api.nvim_create_autocmd("TermEnter", {
     vim.cmd([[setlocal winhighlight=TermCursor:TerminalCursorShape]])
   end,
 })
+
+local months =
+  { Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12 }
+local function date_to_timestamp(date_str)
+  local month, day = date_str:match("(%a+)%s+(%d+)%s+(%d+)")
+  if not (month and day) then
+    return nil
+  end
+  month = months[month]
+  return os.time({ year = 2024, month = month, day = day })
+end
+
+vim.api.nvim_create_user_command("BuildCppAndRun", function()
+  local function check_compile_errors()
+    local qf_list = vim.fn.getqflist()
+    for _, error_item in ipairs(qf_list) do
+      if error_item.valid == 1 and string.find(error_item.text, "error") then
+        return true
+      end
+    end
+    return false
+  end
+  local saved_directory = vim.fn.getcwd()
+  vim.bo.makeprg = "cmake --build build"
+  vim.opt.cmdheight = 0
+  vim.cmd("make")
+  vim.cmd("cd " .. saved_directory)
+  if check_compile_errors() == false then
+    local cmd = "ls -lt bin"
+    local handle = io.popen(cmd)
+    if handle == nil then
+      return
+    end
+    local result = handle:read("*a")
+    handle:close()
+    local files = {}
+    for line in result:gmatch("[^\r\n]+") do
+      local date_str, file_name = line:match("%s+(%a+%s+%d+%s+%d+:%d+)%s+(.+)$")
+      if date_str and file_name then
+        local timestamp = date_to_timestamp(date_str)
+        table.insert(files, { mod_time = timestamp, file_name = file_name })
+      end
+    end
+    table.sort(files, function(a, b)
+      return a.mod_time > b.mod_time
+    end)
+    local first_file = files[1].file_name
+    local has_extension = string.find(first_file, "%.[^.]+$")
+
+    local executable = ""
+    if not has_extension and first_file ~= nil then
+      executable = "!./bin/" .. first_file
+    else
+      executable = "!./bin/app"
+    end
+    vim.cmd(executable)
+  end
+end, {})
