@@ -56,3 +56,11 @@ vim.g.maplocalleader = ","
 vim.g.markdown_recommended_style = 0
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+vim.filetype.add({
+  extension = {
+    vs = "glsl",
+    fs = "glsl",
+    wgsl = "wgsl",
+  },
+})
