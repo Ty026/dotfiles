@@ -15,9 +15,9 @@ end
 local function lsp_init()
   local signs = {
     { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-    { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-    { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-    { name = "DiagnosticSignInfo", text = icons.diagnostics.Info },
+    { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+    { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+    { name = "DiagnosticSignInfo",  text = icons.diagnostics.Info },
   }
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
@@ -65,12 +65,13 @@ local function lsp_init()
   -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
 end
 
-M.on_attach = function(on_attach)
+
+function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-      local buffer = args.buf
+      local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      on_attach(client, buffer)
+      on_attach(client, bufnr)
     end,
   })
 end
@@ -115,19 +116,20 @@ M.setup = function(_, opts)
   -- 检查是否安装了 Mason 并获取可用服务器列表
   local has_mason, mlsp = pcall(require, "mason-lspconfig")
   local installed_servers = has_mason and vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
-    or {}
+      or {}
 
   -- 收集需要通过 Mason 安装的服务器
   local ensure_installed = {}
 
   for server, server_opts in pairs(servers) do
     server_opts = server_opts == true and {} or server_opts
-    if server_opts.mason == false or not vim.tbl_contains(installed_servers, server) then
-      process_server(server)
-    else
+    if vim.tbl_contains(installed_servers, server) and (type(server_opts) == "table" and server_opts.mason ~= false) then
       table.insert(ensure_installed, server)
+    else
+      process_server(server)
     end
   end
+
 
   -- 如果使用 Mason，则安装和设置所有未安装的服务器
   if has_mason then

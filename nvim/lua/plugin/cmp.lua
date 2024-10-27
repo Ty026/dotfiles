@@ -130,8 +130,8 @@ return {
             item.kind = icons.kind[item.kind]
             item.menu = source_names[entry.source.name]
             item.dup = duplicates[entry.source.name] or duplicates_default
-
             return require("tailwindcss-colorizer-cmp").formatter(entry, item)
+            -- return item
           end,
         },
         window = {

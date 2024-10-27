@@ -160,7 +160,6 @@ return {
       },
       filters = {
         custom = { ".git" },
-        dotfiles = false,
       },
       sync_root_with_cwd = true,
       update_focused_file = {
@@ -252,6 +251,39 @@ return {
     opts = { delay = 200 },
     config = function(_, opts)
       require("illuminate").configure(opts)
+    end,
+  },
+  {
+    "coffebar/neovim-project",
+    enabled = false,
+    event = "VeryLazy",
+    opts = {
+      projects = {
+        "~/workspace/alpha2phi/*",
+        "~/workspace/platform/*",
+        "~/workspace/temp/*",
+        "~/workspace/software/*",
+      },
+    },
+    init = function()
+      vim.opt.sessionoptions:append("globals")
+    end,
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" },
+      { "Shatur/neovim-session-manager" },
+    },
+  },
+
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup({
+        detection_methods = { "pattern", "lsp" },
+        patterns = { ".git", "pyproject.toml", "setup.py", "requirements.txt" }, -- 自动识别项目根目录的标识
+        ignore_lsp = { "null-ls" },
+        require("telescope").load_extension("projects"),
+      })
     end,
   },
 }
