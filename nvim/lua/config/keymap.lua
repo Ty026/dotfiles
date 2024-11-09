@@ -1,9 +1,9 @@
 local keymap = vim.keymap.set
 
-keymap("n", "<C-l>", "<C-w>l")
-keymap("n", "<C-h>", "<C-w>h")
-keymap("n", "<C-j>", "<C-w>j")
-keymap("n", "<C-k>", "<C-w>k")
+-- keymap("n", "<C-l>", "<C-w>l")
+-- keymap("n", "<C-h>", "<C-w>h")
+-- keymap("n", "<C-j>", "<C-w>j")
+-- keymap("n", "<C-k>", "<C-w>k")
 
 keymap("t", "<C-h>", "<C-\\><C-n><C-w>h")
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j")

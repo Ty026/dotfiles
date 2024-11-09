@@ -27,6 +27,15 @@ return {
     event = "VeryLazy",
     lazy = false,
     opts = {
+      routes = {
+        filter = {
+          event = "notify",
+          find = "No information available",
+        },
+        opts = {
+          skip = true,
+        },
+      },
       timeout = 996,
       max_height = function()
         return math.floor(vim.o.lines * 0.75)
@@ -37,7 +46,16 @@ return {
     },
     config = function(_, opts)
       require("notify").setup(opts)
-      vim.notify = require("notify")
+      local banned_messages = { "No information available" }
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.notify = function(msg, ...)
+        for _, banned in ipairs(banned_messages) do
+          if msg == banned then
+            return
+          end
+        end
+        return require("notify")(msg, ...)
+      end
     end,
   },
   {
@@ -194,7 +212,7 @@ return {
           end,
           desc = "Previous ToDo",
         },
-        { "<leader>t", "<cmd>TodoTrouble<cr>", desc = "ToDo (Trouble)" },
+        { "<leader>tt", "<cmd>TodoTrouble<cr>", desc = "ToDo (Trouble)" },
         { "<leader>T", "<cmd>TodoTelescope<cr>", desc = "ToDo" },
       },
     },

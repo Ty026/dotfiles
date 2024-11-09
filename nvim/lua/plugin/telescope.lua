@@ -56,7 +56,7 @@ return {
       local file_ignore_patterns = {
         ".git/",
         "3rdparty/",
-        "build",
+        "build/",
         "node_modules",
         ".cache",
         "__pycache__/",
