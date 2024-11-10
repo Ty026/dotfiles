@@ -25,11 +25,11 @@ function M.on_attach(client, buf)
       desc = opts.desc,
     })
   end
-  map("<C-k>", vim.lsp.buf.signature_help, {
-    desc = "Signature Help",
-    has = "signatureHelp",
-    mode = { "n", "i" },
-  })
+  -- map("<C-k>", vim.lsp.buf.signature_help, {
+  --   desc = "Signature Help",
+  --   has = "signatureHelp",
+  --   mode = { "n", "i" },
+  -- })
   map("gr", "Telescope lsp_references", { desc = "References" })
   map("gD", "Lspsaga peek_definition", { desc = "Peek Definition" })
   map("gd", "Lspsaga goto_definition", { desc = "Goto Definition" })
