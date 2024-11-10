@@ -26,7 +26,7 @@ return {
         pyright = {
           settings = {
             python = {
-              venvPath = vim.fn.expand("~/.cache/pypoetry/virtualenvs"), -- 设置默认路径，便于管理
+              venvPath = vim.fn.expand("~/.cache/pypoetry/virtualenvs"),                    -- 设置默认路径，便于管理
               pythonPath = vim.fn.systemlist("poetry env info --path")[1] .. "/bin/python", -- 动态获取当前项目的 Python 路径
               analysis = {
                 typeCheckingMode = "off",

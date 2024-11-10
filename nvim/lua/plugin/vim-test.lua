@@ -13,5 +13,6 @@ return {
   },
   config = function()
     vim.cmd("let test#strategy = 'vimux'")
+    vim.cmd("let test#python#runner= 'pyunit'")
   end,
 }

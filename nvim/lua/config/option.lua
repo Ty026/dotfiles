@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+vim.cmd("language en_US")
 opt.autoindent = true
 opt.breakindent = true
 opt.clipboard = "unnamedplus" -- Access system clipboard
